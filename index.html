@@ -29,7 +29,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── GRID BACKGROUND ─── */
 body::before {
   content: '';
   position: fixed;
@@ -42,7 +41,6 @@ body::before {
   pointer-events: none;
 }
 
-/* ─── GLOW ORBS ─── */
 .orb {
   position: fixed;
   border-radius: 50%;
@@ -56,7 +54,6 @@ body::before {
 @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-60px,60px)} }
 @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,-40px)} }
 
-/* ─── NAV ─── */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -100,11 +97,9 @@ nav {
 .nav-links a:hover { color: var(--cyan); }
 .nav-links a:hover::after { width: 100%; }
 
-/* ─── SECTION WRAPPER ─── */
 section { position: relative; z-index: 1; padding: 100px 8%; }
 section:first-of-type { padding-top: 0; }
 
-/* ─── HERO ─── */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -147,7 +142,6 @@ section:first-of-type { padding-top: 0; }
   margin-bottom: 40px;
 }
 
-/* Typewriter */
 .typewriter {
   color: var(--cyan);
   border-right: 2px solid var(--cyan);
@@ -184,7 +178,6 @@ section:first-of-type { padding-top: 0; }
 }
 .btn-outline:hover { background: rgba(0,229,255,0.1); transform: translateY(-2px); }
 
-/* scroll indicator */
 .profile-pic {
   width: 130px;
   height: 130px;
@@ -197,6 +190,12 @@ section:first-of-type { padding-top: 0; }
 }
 
 .profile-fallback {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid var(--cyan);
+  box-shadow: 0 0 30px rgba(0,229,255,0.4);
+  margin-bottom: 28px;
   display: none;
   justify-content: center;
   align-items: center;
@@ -229,7 +228,6 @@ section:first-of-type { padding-top: 0; }
 }
 @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-/* ─── SECTION HEADER ─── */
 .sec-header {
   display: flex;
   align-items: center;
@@ -259,7 +257,6 @@ section:first-of-type { padding-top: 0; }
   border: 1px solid var(--border);
 }
 
-/* ─── SKILLS ─── */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -306,7 +303,6 @@ section:first-of-type { padding-top: 0; }
   transition: width 1.2s ease;
 }
 
-/* ─── EDUCATION ─── */
 .timeline { position: relative; padding-left: 40px; }
 .timeline::before {
   content: '';
@@ -346,7 +342,6 @@ section:first-of-type { padding-top: 0; }
 .edu-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
 .edu-school { color: var(--muted); font-size: 0.88rem; }
 
-/* ─── PROJECTS ─── */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -398,7 +393,6 @@ section:first-of-type { padding-top: 0; }
   letter-spacing: 1px;
 }
 
-/* ─── CONTACT ─── */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -429,7 +423,6 @@ section:first-of-type { padding-top: 0; }
 .contact-link span:first-child { font-size: 1.3rem; }
 .contact-link-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; display: block; margin-bottom: 2px; }
 
-/* ─── FOOTER ─── */
 footer {
   position: relative; z-index: 1;
   text-align: center;
@@ -442,7 +435,6 @@ footer {
 }
 footer span { color: var(--cyan); }
 
-/* ─── SCROLL ANIMATIONS ─── */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -457,7 +449,6 @@ footer span { color: var(--cyan); }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
-/* ─── HERO ENTRANCE ─── */
 .hero-tag { animation: fadeInUp 0.7s ease 0.2s both; }
 .hero h1   { animation: fadeInUp 0.7s ease 0.4s both; }
 .hero-subtitle { animation: fadeInUp 0.7s ease 0.6s both; }
@@ -467,7 +458,6 @@ footer span { color: var(--cyan); }
   to   { opacity:1; transform:translateY(0); }
 }
 
-/* ─── MOBILE ─── */
 @media(max-width:600px){
   nav { padding: 16px 20px; }
   .nav-links { gap: 16px; }
@@ -482,7 +472,6 @@ footer span { color: var(--cyan); }
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">Sreenath</div>
   <div class="nav-links">
@@ -496,8 +485,8 @@ footer span { color: var(--cyan); }
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <img src="profile.jpg.jpeg" ...>
-  <div id="pic-fallback" class="profile-pic profile-fallback">SP</div>
+  <img src="profile.jpg.jpeg" alt="Sreenath" class="profile-pic" onerror="this.style.display='none';document.getElementById('pic-fallback').style.display='flex'">
+  <div id="pic-fallback" class="profile-fallback">SP</div>
   <div class="hero-tag">Available for Internship opportunities</div>
   <h1>Sreenath<br><span id="typed"></span></h1>
   <p class="hero-subtitle">
@@ -516,7 +505,6 @@ footer span { color: var(--cyan); }
     <span class="sec-num">01</span>
     <h2>My <span>Skills</span></h2>
   </div>
-
   <div class="skills-grid">
     <div class="skill-card reveal reveal-delay-1">
       <div class="skill-icon">🌐</div>
@@ -563,7 +551,6 @@ footer span { color: var(--cyan); }
     <span class="sec-num">02</span>
     <h2>Edu<span>cation</span></h2>
   </div>
-
   <div class="timeline">
     <div class="timeline-item reveal reveal-delay-1">
       <div class="edu-year">2024 — PRESENT</div>
@@ -589,49 +576,37 @@ footer span { color: var(--cyan); }
     <span class="sec-num">03</span>
     <h2>Pro<span>jects</span></h2>
   </div>
-
   <div class="projects-grid">
     <a href="calculator.html" target="_blank" class="project-card reveal reveal-delay-1">
       <span class="project-emoji">🧮</span>
       <div class="project-title">Calculator App</div>
       <div class="project-desc">A fully functional calculator built with HTML, CSS, and JavaScript. Supports all basic arithmetic operations with a clean UI.</div>
       <div class="project-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
       </div>
     </a>
-
     <a href="todolist.html" target="_blank" class="project-card reveal reveal-delay-2">
       <span class="project-emoji">📝</span>
       <div class="project-title">To-Do List App</div>
       <div class="project-desc">A task management app with add/delete functionality. Helps organize daily tasks with a minimal and intuitive interface.</div>
       <div class="project-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
       </div>
     </a>
-
     <div class="project-card reveal reveal-delay-3">
       <span class="project-emoji">💬</span>
       <div class="project-title">SpeakUp — English Practice</div>
       <div class="project-desc">A Web Speech API-powered English conversation tool built in SPCK Editor for practice on mobile devices.</div>
       <div class="project-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">Web Speech API</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag">HTML</span><span class="tag">Web Speech API</span><span class="tag">JavaScript</span>
       </div>
     </div>
-
     <div class="project-card reveal reveal-delay-4">
       <span class="project-emoji">🌐</span>
       <div class="project-title">Portfolio Website</div>
       <div class="project-desc">This portfolio — designed and built from scratch with custom animations, responsive layout, and a terminal-inspired aesthetic.</div>
       <div class="project-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
       </div>
     </div>
   </div>
@@ -643,7 +618,6 @@ footer span { color: var(--cyan); }
     <span class="sec-num">04</span>
     <h2>Con<span>tact</span></h2>
   </div>
-
   <div class="contact-grid">
     <div class="contact-text reveal">
       <h3>Let's <span>Connect</span></h3>
@@ -652,31 +626,19 @@ footer span { color: var(--cyan); }
     <div class="contact-links reveal reveal-delay-2">
       <a href="tel:6302047040" class="contact-link">
         <span>📞</span>
-        <div>
-          <span class="contact-link-label">PHONE</span>
-          6302047040
-        </div>
+        <div><span class="contact-link-label">PHONE</span>6302047040</div>
       </a>
       <a href="mailto:sreesree41002@gmail.com" class="contact-link">
         <span>📧</span>
-        <div>
-          <span class="contact-link-label">EMAIL</span>
-          sreesree41002@gmail.com
-        </div>
+        <div><span class="contact-link-label">EMAIL</span>sreesree41002@gmail.com</div>
       </a>
       <a href="https://github.com/sreenath630" target="_blank" class="contact-link">
         <span>💻</span>
-        <div>
-          <span class="contact-link-label">GITHUB</span>
-          github.com/sreenath630
-        </div>
+        <div><span class="contact-link-label">GITHUB</span>github.com/sreenath630</div>
       </a>
       <a href="https://www.linkedin.com/in/sreenath-pothineni-37a74a250" target="_blank" class="contact-link">
         <span>🔗</span>
-        <div>
-          <span class="contact-link-label">LINKEDIN</span>
-          Sreenath Pothineni
-        </div>
+        <div><span class="contact-link-label">LINKEDIN</span>Sreenath Pothineni</div>
       </a>
     </div>
   </div>
@@ -687,8 +649,7 @@ footer span { color: var(--cyan); }
 </footer>
 
 <script>
-// ─── TYPEWRITER ───
-const roles = [ 'Cloud Learner', 'Web Developer', 'DevOps Aspirant'];
+const roles = ['Cloud Learner', 'Web Developer', 'DevOps Aspirant'];
 let ri = 0, ci = 0, deleting = false;
 const el = document.getElementById('role-display');
 
@@ -697,45 +658,29 @@ function type() {
   if (!deleting) {
     el.textContent = word.slice(0, ci + 1);
     ci++;
-    if (ci === word.length) {
-      deleting = true;
-      setTimeout(type, 1800);
-      return;
-    }
+    if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
   } else {
     el.textContent = word.slice(0, ci - 1);
     ci--;
-    if (ci === 0) {
-      deleting = false;
-      ri = (ri + 1) % roles.length;
-    }
+    if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
   }
   setTimeout(type, deleting ? 60 : 100);
 }
 type();
 
-// ─── SCROLL REVEAL (Fixed) ───
-// Observes .reveal elements. Also handles nav click scroll properly.
 const revealEls = document.querySelectorAll('.reveal');
-
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
-      // animate skill bars when visible
       const bar = e.target.querySelector('.skill-bar');
-      if (bar) {
-        setTimeout(() => {
-          bar.style.width = bar.dataset.width + '%';
-        }, 300);
-      }
+      if (bar) setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 300);
     }
   });
 }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
 revealEls.forEach(el => revealObs.observe(el));
 
-// ─── FIX: Re-check visibility after nav click scroll ───
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', (e) => {
     const target = link.getAttribute('href');
@@ -743,10 +688,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     e.preventDefault();
     const section = document.querySelector(target);
     if (!section) return;
-
     section.scrollIntoView({ behavior: 'smooth' });
-
-    // After scroll finishes (~600ms), force-check all elements in viewport
     setTimeout(() => {
       revealEls.forEach(el => {
         const rect = el.getBoundingClientRect();
