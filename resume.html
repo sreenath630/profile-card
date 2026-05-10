@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sreenath Pothineni — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050b14;
+  --bg2: #090f1c;
+  --cyan: #00e5ff;
+  --green: #00ff88;
+  --white: #e8f4f8;
+  --muted: #4a6572;
+  --card: rgba(0,229,255,0.04);
+  --border: rgba(0,229,255,0.14);
+  --sidebar: #070e1a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* GRID BG */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,0.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── PRINT BUTTON ── */
+.print-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(5,11,20,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.print-bar span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+.print-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  padding: 10px 24px;
+  background: var(--cyan);
+  color: var(--bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.print-btn:hover { background: var(--green); transform: translateY(-1px); }
+
+/* ── WRAPPER ── */
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 80px auto 40px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,229,255,0.07);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* profile */
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 24px rgba(0,229,255,0.35);
+  object-fit: cover;
+}
+.avatar-fallback {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 24px rgba(0,229,255,0.35);
+  background: rgba(0,229,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.profile-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.profile-role {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  line-height: 1.6;
+}
+
+/* sidebar section */
+.s-section { display: flex; flex-direction: column; gap: 12px; }
+
+.s-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* contact items */
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.2s;
+  word-break: break-all;
+  line-height: 1.5;
+}
+.contact-item:hover { color: var(--cyan); }
+.contact-item .icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* skill tags */
+.skill-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.skill-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--cyan);
+  background: rgba(0,229,255,0.06);
+  letter-spacing: 1px;
+}
+
+/* tool items */
+.tool-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+}
+.tool-bar-bg {
+  width: 70px;
+  height: 3px;
+  background: rgba(0,229,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tool-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  border-radius: 2px;
+}
+
+/* ── MAIN ── */
+.main {
+  background: var(--bg2);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* main section */
+.m-section { display: flex; flex-direction: column; gap: 18px; }
+
+.m-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.m-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.m-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+/* summary */
+.summary-text {
+  font-size: 0.85rem;
+  color: #a0bcc6;
+  line-height: 1.8;
+  border-left: 2px solid var(--cyan);
+  padding-left: 16px;
+}
+
+/* experience / education card */
+.entry {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.entry:hover { border-color: rgba(0,229,255,0.3); }
+
+.entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.entry-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+.entry-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+.entry-org {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.entry-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.entry-bullets li {
+  font-size: 0.8rem;
+  color: #a0bcc6;
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+.entry-bullets li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+  font-size: 0.7rem;
+}
+
+/* project grid */
+.proj-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.proj-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  transition: border-color 0.3s;
+}
+.proj-card:hover { border-color: rgba(0,229,255,0.3); }
+.proj-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.proj-emoji { font-size: 1.2rem; }
+.proj-name { font-size: 0.9rem; font-weight: 700; }
+.proj-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.proj-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.proj-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--cyan);
+  background: rgba(0,229,255,0.06);
+}
+
+/* ── PRINT STYLES ── */
+@media print {
+  @page { size: A4; margin: 0; }
+
+  body::before { display: none; }
+  .print-bar { display: none; }
+
+  body {
+    background: #050b14 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .wrapper {
+    margin: 0;
+    max-width: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    min-height: 100vh;
+  }
+
+  .entry, .proj-card, .skill-tag, .proj-tag { break-inside: avoid; }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 700px) {
+  .wrapper { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .proj-grid { grid-template-columns: 1fr; }
+  .print-bar { padding: 12px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRINT BAR -->
+<div class="print-bar">
+  <span>SREENATH POTHINENI — RESUME</span>
+  <button class="print-btn" onclick="window.print()">⬇ Download PDF</button>
+</div>
+
+<div class="wrapper">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- Profile -->
+    <div class="profile">
+      <img src="C:\Users\Dell\Downloads\profile.jpg.jpeg" class="avatar" alt="Sreenath"
+        onerror="this.style.display='none';document.getElementById('av-fallback').style.display='flex'">
+      <div class="avatar-fallback" id="av-fallback" style="display:none">SP</div>
+      <div>
+        <div class="profile-name">Sreenath<br>Pothineni</div>
+      </div>
+      <div class="profile-role">CLOUD LEARNER<br>WEB DEVELOPER</div>
+    </div>
+
+    <!-- Contact -->
+    <div class="s-section">
+      <div class="s-title">Contact</div>
+      <a href="tel:6302047040" class="contact-item">
+        <span class="icon">📞</span> 6302047040
+      </a>
+      <a href="mailto:sreesree41002@gmail.com" class="contact-item">
+        <span class="icon">📧</span> sreesree41002@gmail.com
+      </a>
+      <a href="https://github.com/sreenath630" class="contact-item">
+        <span class="icon">💻</span> github.com/sreenath630
+      </a>
+      <a href="https://linkedin.com/in/sreenath-pothineni-37a74a250" class="contact-item">
+        <span class="icon">🔗</span> linkedin.com/in/sreenath-pothineni
+      </a>
+      <a class="contact-item">
+        <span class="icon">📍</span> Bengaluru / Kadiri, AP
+      </a>
+    </div>
+
+    <!-- Tech Skills -->
+    <div class="s-section">
+      <div class="s-title">Tech Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Termux</span>
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+
+    <!-- Proficiency -->
+    <div class="s-section">
+      <div class="s-title">Proficiency</div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">HTML/CSS</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:80%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">JavaScript</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:65%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Java</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:55%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Linux</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:50%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">AWS</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:30%"></div></div>
+      </div>
+    </div>
+
+    <!-- Languages -->
+    <div class="s-section">
+      <div class="s-title">Languages</div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Telugu</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:100%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">English</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:70%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Hindi</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:45%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Kannada</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:25%"></div></div>
+      </div>
+      <div class="tool-item">
+        <span style="font-size:0.78rem">Tamil</span>
+        <div class="tool-bar-bg"><div class="tool-bar" style="width:15%"></div></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- Summary -->
+    <div class="m-section">
+      <div class="m-title"><span class="m-num">01</span> Summary</div>
+      <p class="summary-text">
+        BCA 2nd year student at PVKK Institute of Technology with 2 years of professional experience in IT Asset Management at Siemens Healthineers. Passionate about Cloud Computing, DevOps, and Web Development. Actively learning AWS and building real-world projects. Looking for opportunities to grow in Cloud & DevOps.
+      </p>
+    </div>
+
+    <!-- Experience -->
+    <div class="m-section">
+      <div class="m-title"><span class="m-num">02</span> Experience</div>
+
+      <div class="entry">
+        <div class="entry-top">
+          <div class="entry-title">IT Asset Management Executive</div>
+          <div class="entry-period">2022 — 2024</div>
+        </div>
+        <div class="entry-org">Siemens Healthineers Pvt. Ltd. · Bengaluru</div>
+        <ul class="entry-bullets">
+          <li>Managed full hardware asset lifecycle — laptops, monitors, and peripherals — for a large employee base.</li>
+          <li>Maintained and reconciled inventory records in Excel with high accuracy across multiple reconciliation cycles.</li>
+          <li>Handled procurement record-keeping and coordinated with vendors for asset delivery and returns.</li>
+          <li>Performed regular audits to ensure asset tracking compliance across departments.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="m-section">
+      <div class="m-title"><span class="m-num">03</span> Education</div>
+
+      <div class="entry">
+        <div class="entry-top">
+          <div class="entry-title">Bachelor of Computer Applications (BCA)</div>
+          <div class="entry-period">2024 — Present</div>
+        </div>
+        <div class="entry-org">PVKK Institute of Technology · Anantapur, Andhra Pradesh · 2nd Year</div>
+        <ul class="entry-bullets">
+          <li>Studying Data Structures, Java OOP, Software Engineering, and Probability & Statistics.</li>
+          <li>Building projects independently using HTML, CSS, JavaScript and Java.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-top">
+          <div class="entry-title">Intermediate — MLT (Medical Lab Technology)</div>
+          <div class="entry-period">Completed</div>
+        </div>
+        <div class="entry-org">Andhra Pradesh State Board</div>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="m-section">
+      <div class="m-title"><span class="m-num">04</span> Projects</div>
+      <div class="proj-grid">
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-emoji">🧮</span>
+            <span class="proj-name">Calculator App</span>
+          </div>
+          <div class="proj-desc">Fully functional calculator with all arithmetic operations and a clean responsive UI.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-emoji">📝</span>
+            <span class="proj-name">To-Do List App</span>
+          </div>
+          <div class="proj-desc">Task management app with add/delete functionality and a minimal interface.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-emoji">💬</span>
+            <span class="proj-name">SpeakUp</span>
+          </div>
+          <div class="proj-desc">Voice-enabled English practice app using Web Speech API, built for mobile via SPCK Editor.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">Web Speech API</span>
+            <span class="proj-tag">JS</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-emoji">🌐</span>
+            <span class="proj-name">Portfolio Website</span>
+          </div>
+          <div class="proj-desc">Personal portfolio with scroll animations, typewriter effect, and terminal-inspired design.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
