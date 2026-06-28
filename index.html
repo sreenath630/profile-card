@@ -7,6 +7,21 @@
   <meta name="description" content="Sreenath Pothineni - Cloud & DevOps Learner portfolio. Skills in AWS, Linux, JavaScript and more.">
 <meta name="keywords" content="Sreenath Pothineni, portfolio, Cloud DevOps, AWS, GitHub, Anantapur">
 <meta name="author" content="Sreenath Pothineni">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23050b14'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='44' font-weight='700' fill='%2300e5ff' text-anchor='middle'%3ESP%3C/text%3E%3C/svg%3E">
+
+<!-- Open Graph (LinkedIn, WhatsApp, Facebook previews) -->
+<meta property="og:title" content="Sreenath Pothineni | Cloud & DevOps Learner">
+<meta property="og:description" content="BCA student and former IT Asset Management Executive at Siemens Healthineers, building real-world projects while upskilling in AWS, Cloud, and DevOps.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sreenath630.github.io/profile-card/">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sreenath Pothineni | Cloud & DevOps Learner">
+<meta name="twitter:description" content="BCA student and former IT Asset Management Executive at Siemens Healthineers, building real-world projects while upskilling in AWS, Cloud, and DevOps.">
+
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -20,6 +35,31 @@
   --card: rgba(0,229,255,0.04);
   --border: rgba(0,229,255,0.12);
 }
+
+html[data-theme="light"] {
+  --bg: #f4f7f9;
+  --bg2: #e9eef2;
+  --cyan: #0090a8;
+  --cyan2: #00718a;
+  --green: #00875a;
+  --white: #131a22;
+  --muted: #5b6b76;
+  --card: rgba(0,144,168,0.05);
+  --border: rgba(0,144,168,0.18);
+}
+
+html[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(0,144,168,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,144,168,0.06) 1px, transparent 1px);
+}
+
+html[data-theme="light"] .orb1 { background: rgba(0,144,168,0.10); }
+html[data-theme="light"] .orb2 { background: rgba(0,135,90,0.08); }
+
+html[data-theme="light"] .btn-primary { color: #f4f7f9; }
+html[data-theme="light"] nav { background: rgba(244,247,249,0.85); }
+html[data-theme="light"] .profile-fallback { background: rgba(0,144,168,0.08); }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -99,6 +139,24 @@ nav {
 }
 .nav-links a:hover { color: var(--cyan); }
 .nav-links a:hover::after { width: 100%; }
+
+.theme-toggle {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--cyan); transform: rotate(20deg); }
+.theme-toggle svg { width: 18px; height: 18px; color: var(--cyan); }
+.theme-toggle .icon-moon { display: none; }
+html[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
 
 section { position: relative; z-index: 1; padding: 100px 8%; }
 section:first-of-type { padding-top: 0; }
@@ -426,6 +484,38 @@ section:first-of-type { padding-top: 0; }
 .contact-link span:first-child { font-size: 1.3rem; }
 .contact-link-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; display: block; margin-bottom: 2px; }
 
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
+}
+.contact-form input,
+.contact-form textarea {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: var(--muted); }
+.contact-form input:focus,
+.contact-form textarea:focus { border-color: rgba(0,229,255,0.4); }
+.form-status {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  min-height: 18px;
+}
+.form-status.success { color: var(--green); }
+.form-status.error { color: #ff5d5d; }
+.contact-submit-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+
 footer {
   position: relative; z-index: 1;
   text-align: center;
@@ -467,10 +557,272 @@ footer span { color: var(--cyan); }
   .nav-links a { font-size: 0.65rem; letter-spacing: 1px; }
   section { padding: 80px 5%; }
   .hero { padding: 0 5%; }
+  .theme-toggle { width: 32px; height: 32px; margin-left: 10px; }
+  .theme-toggle svg { width: 15px; height: 15px; }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 0;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+@media(max-width:600px){
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
+}
+
+/* ---------- Loading screen ---------- */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.loader-screen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-mark {
+  font-family: 'Space Mono', monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+.loader-mark span { color: var(--cyan); }
+.loader-bar {
+  width: 160px;
+  height: 3px;
+  background: rgba(0,229,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ---------- Chatbot widget ---------- */
+.bot-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 8px 30px rgba(0,229,255,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.bot-toggle:hover { transform: scale(1.08); box-shadow: 0 10px 36px rgba(0,229,255,0.5); }
+.bot-toggle svg { width: 26px; height: 26px; color: var(--bg); }
+.bot-toggle .icon-close { display: none; }
+.bot-toggle.open .icon-chat { display: none; }
+.bot-toggle.open .icon-close { display: block; }
+
+.bot-dot {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--bg);
+}
+
+.bot-window {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  height: 460px;
+  max-height: calc(100vh - 140px);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  font-family: 'Syne', sans-serif;
+}
+.bot-window.open { display: flex; animation: botRise 0.25s ease; }
+@keyframes botRise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bot-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(0,229,255,0.06);
+  border-bottom: 1px solid var(--border);
+}
+.bot-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.bot-avatar svg {
+  width: 19px;
+  height: 19px;
+  color: var(--bg);
+}
+.bot-header-text h4 { font-size: 0.92rem; font-weight: 700; }
+.bot-header-text span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.bot-header-text span::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.bot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bot-messages::-webkit-scrollbar { width: 5px; }
+.bot-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.bot-msg {
+  max-width: 84%;
+  padding: 9px 13px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+.bot-msg.bot {
+  background: rgba(0,229,255,0.08);
+  border: 1px solid var(--border);
+  align-self: flex-start;
+  border-bottom-left-radius: 3px;
+}
+.bot-msg.user {
+  background: var(--cyan);
+  color: var(--bg);
+  font-weight: 500;
+  align-self: flex-end;
+  border-bottom-right-radius: 3px;
+}
+
+.bot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+.bot-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--cyan);
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.bot-chip:hover { background: rgba(0,229,255,0.1); border-color: var(--cyan); }
+
+.bot-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+.bot-input-row input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+}
+.bot-input-row input:focus { border-color: var(--cyan); }
+.bot-send {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+.bot-send:hover { background: var(--green); }
+.bot-send svg { width: 16px; height: 16px; color: var(--bg); }
+
+@media(max-width:420px){
+  .bot-window { right: 16px; left: 16px; width: auto; bottom: 86px; }
+  .bot-toggle { right: 16px; }
 }
 </style>
+<script>
+  (function() {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 </head>
 <body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mark">S<span>P</span></div>
+  <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+</div>
 
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
@@ -485,6 +837,22 @@ footer span { color: var(--cyan); }
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
   </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -501,6 +869,28 @@ footer span { color: var(--cyan); }
     <a href="resume.html" class="btn btn-outline">📄 Resume</a>
   </div>
   <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- STATS -->
+<section id="stats" style="padding-top:0; padding-bottom:60px;">
+  <div class="stats-grid">
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num" data-target="2" data-suffix="+">0</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num" data-target="6" data-suffix="">0</div>
+      <div class="stat-label">Projects Built</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num" data-target="2" data-suffix="">0</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-4">
+      <div class="stat-num" data-target="100" data-suffix="%">0</div>
+      <div class="stat-label">Committed to Growth</div>
+    </div>
+  </div>
 </section>
 
 <!-- SKILLS -->
@@ -666,6 +1056,14 @@ footer span { color: var(--cyan); }
     <div class="contact-text reveal">
       <h3>Let's <span>Connect</span></h3>
       <p>I'm actively looking for opportunities in Cloud, DevOps, and Web Development. Feel free to reach out — I respond quickly!</p>
+
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mqevbdow" method="POST">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message" rows="4" required></textarea>
+        <button type="submit" class="btn btn-primary" id="contactSubmit" style="width:100%;">Send Message</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
     </div>
     <div class="contact-links reveal reveal-delay-2">
       <a href="tel:6302047040" class="contact-link">
@@ -690,9 +1088,83 @@ footer span { color: var(--cyan); }
 
 <footer>
   © 2026 <a href="https://github.com/sreenath630" target="_blank" rel="noopener" style="color:var(--cyan); text-decoration:none; font-weight:700;">Sreenath</a> · Built with ❤️ &amp; lots of ☕
+  <div style="margin-top:10px;">
+    <img src="https://komarev.com/ghpvc/?username=sreenath630-profile-card&label=Portfolio+Views&color=00e5ff&style=flat" alt="Portfolio views" style="height:20px; border-radius:4px;" />
+  </div>
 </footer>
 
+<!-- CHATBOT -->
+<div class="bot-window" id="botWindow">
+  <div class="bot-header">
+    <div class="bot-avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+        <circle cx="12" cy="5" r="2"></circle>
+        <path d="M12 7v4"></path>
+        <line x1="8" y1="16" x2="8" y2="16"></line>
+        <line x1="16" y1="16" x2="16" y2="16"></line>
+      </svg>
+    </div>
+    <div class="bot-header-text">
+      <h4>I'm Sreenath Assistant</h4>
+      <span>Online</span>
+    </div>
+  </div>
+  <div class="bot-messages" id="botMessages"></div>
+  <div class="bot-chips" id="botChips">
+    <button class="bot-chip" data-q="skills">Skills</button>
+    <button class="bot-chip" data-q="projects">Projects</button>
+    <button class="bot-chip" data-q="why should we hire him">Why hire him?</button>
+    <button class="bot-chip" data-q="contact">Contact</button>
+  </div>
+  <div class="bot-input-row">
+    <input type="text" id="botInput" placeholder="Type a message..." autocomplete="off" />
+    <button class="bot-send" id="botSend" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<button class="bot-toggle" id="botToggle" aria-label="Open chat">
+  <span class="bot-dot"></span>
+  <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+  </svg>
+  <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+</button>
+
 <script>
+/* ---------- Loading screen ---------- */
+window.addEventListener('load', () => {
+  const fill = document.getElementById('loaderFill');
+  const screen = document.getElementById('loaderScreen');
+  requestAnimationFrame(() => { fill.style.width = '100%'; });
+  setTimeout(() => {
+    screen.classList.add('hide');
+  }, 600);
+});
+
+/* ---------- Theme toggle ---------- */
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('portfolio-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('portfolio-theme', 'light');
+    }
+  });
+}
+
 const roles = ['Cloud Learner', 'Web Developer', 'DevOps Aspirant'];
 let ri = 0, ci = 0, deleting = false;
 const el = document.getElementById('role-display');
@@ -725,6 +1197,75 @@ const revealObs = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObs.observe(el));
 
+/* ---------- Stats counter ---------- */
+function animateCount(el) {
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1200;
+  const startTime = performance.now();
+
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(target * eased);
+    el.textContent = current + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const statEls = document.querySelectorAll('.stat-num');
+if (statEls.length) {
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        animateCount(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  statEls.forEach(el => statsObs.observe(el));
+}
+
+/* ---------- Contact form ---------- */
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  const submitBtn = document.getElementById('contactSubmit');
+  const statusEl = document.getElementById('formStatus');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    statusEl.textContent = '';
+    statusEl.className = 'form-status';
+
+    try {
+      const formData = new FormData(contactForm);
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        statusEl.textContent = "Message sent! I'll get back to you soon.";
+        statusEl.classList.add('success');
+        contactForm.reset();
+      } else {
+        statusEl.textContent = 'Something went wrong. Please try emailing directly.';
+        statusEl.classList.add('error');
+      }
+    } catch (err) {
+      statusEl.textContent = 'Network error. Please try emailing directly.';
+      statusEl.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    }
+  });
+}
+
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', (e) => {
     const target = link.getAttribute('href');
@@ -745,6 +1286,136 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     }, 700);
   });
 });
+
+/* ---------- Chatbot ---------- */
+(function () {
+  const toggle = document.getElementById('botToggle');
+  const win = document.getElementById('botWindow');
+  const messages = document.getElementById('botMessages');
+  const input = document.getElementById('botInput');
+  const sendBtn = document.getElementById('botSend');
+  const chips = document.getElementById('botChips');
+
+  const RULES = [
+    // Small talk
+    { keys: ['what are you doing', 'what r u doing', 'what you doing', 'whatcha doing'], reply: "Just sitting here ready to answer questions about Sreenath! Ask me about his skills, projects, or contact info." },
+    { keys: ['how are you', 'how r u', 'how is it going', "how's it going", 'how have you been'], reply: "I'm doing great, just hanging out in this portfolio! How can I help you learn about Sreenath?" },
+    { keys: ['who are you', 'what are you', 'are you ai', 'are you a bot', 'are you real', 'are you human'], reply: "I'm a simple assistant built into this portfolio to answer quick questions about Sreenath. No fancy AI here, just good old keyword matching!" },
+    { keys: ["what's up", 'whats up', 'sup'], reply: "Not much, just helping people learn about Sreenath! What would you like to know?" },
+    { keys: ['hi', 'hello', 'hey', 'yo', 'hii', 'helo', 'good morning', 'good afternoon', 'good evening'], reply: "Hey there! 👋 I'm a quick assistant for Sreenath's portfolio. Ask me about his skills, projects, education, or how to contact him." },
+
+    // Qualification / education
+    { keys: ['qualification', 'qualifications', 'education', 'educational background', 'study', 'studied', 'college', 'degree', 'bca', 'university', 'academic'], reply: "Sreenath is pursuing a Bachelor of Computer Applications (BCA), currently in his 2nd year at PVKK Institute of Technology, Anantapur. Before that, he completed his Intermediate in Medical Lab Technology (MLT)." },
+
+    // Skills
+    { keys: ['skill', 'skills', 'tech stack', 'technologies', 'what can he do', 'what does he know', 'strengths', 'strong at'], reply: "Sreenath works with HTML, CSS, JavaScript, and Java. He's also actively learning AWS Cloud, Linux, and DevOps fundamentals. On the professional side, he has strong IT Asset Management experience from his time at Siemens Healthineers." },
+    { keys: ['weakness', 'weaknesses', 'areas to improve', 'what is he bad at'], reply: "Like any learner, Sreenath is still building depth in Cloud and DevOps — he's actively upskilling through self-study and hands-on projects to close that gap." },
+
+    // Projects
+    { keys: ['project', 'projects', 'built', 'portfolio site', 'apps', 'app', 'what has he made', 'show me his work'], reply: "He's built a Calculator App, a To-Do List, a Weather Dashboard (SkyPulse) with live forecasts, a SpeakUp English practice tool, and an interactive DevOps Roadmap — all linked in the Projects section above! Feel free to click through and try them." },
+
+    // Experience / work history
+    { keys: ['experience', 'siemens', 'job history', 'worked', 'previous job', 'work history', 'years of experience', 'professional experience'], reply: "He has 2 years of professional experience as an IT Asset Management Executive at Siemens Healthineers in Bengaluru, where he managed hardware lifecycle, inventory tracking, and asset audits." },
+    { keys: ['why did he leave', 'why he left siemens', 'why quit'], reply: "He moved on from Siemens to focus on upskilling in Cloud and DevOps and to pursue his BCA degree, aiming for a stronger long-term career path in tech." },
+    { keys: ['notice period', 'when can he join', 'availability', 'when available'], reply: "Sreenath is currently available and actively job hunting, so he can typically join on short notice. Reach out via email to confirm specifics." },
+
+    // Career goals / why hire
+    { keys: ['career goal', 'career goals', 'future plans', 'where does he see himself', '5 year plan', 'long term goal'], reply: "Sreenath's goal is to build a strong career in Cloud and DevOps, eventually working at an MNC like NTT DATA, HCL, IBM, or DXC Technology, while continuing to deepen his AWS and DevOps expertise." },
+    { keys: ['why should we hire', 'why hire him', 'what makes him a good fit', 'why him'], reply: "He brings a rare mix: real-world IT Asset Management experience plus hands-on self-taught coding and cloud skills. He's also shown consistency — building and shipping multiple projects while job hunting and studying simultaneously." },
+    { keys: ['why this field', 'why cloud', 'why devops', 'why did he choose'], reply: "He chose Cloud/DevOps after exploring options like cybersecurity, drawn to its growth potential and how it builds on his IT Asset Management background in a more technical direction." },
+
+    // Behavioral / soft skills
+    { keys: ['teamwork', 'team player', 'work in a team', 'collaboration'], reply: "Sreenath has worked in cross-functional teams during his time at Siemens Healthineers, coordinating with vendors and internal stakeholders on asset tracking and audits." },
+    { keys: ['handle pressure', 'handle stress', 'deadlines', 'work under pressure'], reply: "Balancing a full-time job search with active upskilling and project-building shows he can manage multiple priorities under pressure — he treats each week with a structured, goal-driven approach." },
+    { keys: ['challenge', 'biggest challenge', 'difficult situation', 'overcome'], reply: "Transitioning from a non-technical IT Asset Management role into Cloud/DevOps has been his biggest challenge — he's tackled it through self-paced learning, certifications, and building real projects from scratch." },
+    { keys: ['mistake', 'failure', 'biggest failure'], reply: "Sreenath approaches setbacks like rejected applications as feedback loops — he's used specific interview feedback to refine his resume and sharpen his technical prep each time." },
+    { keys: ['leadership', 'manage people', 'lead a team'], reply: "While his current roles haven't been formal leadership positions, he's shown initiative by independently driving his own upskilling roadmap and project portfolio." },
+
+    // Salary / logistics
+    { keys: ['salary', 'expected salary', 'salary expectation', 'ctc', 'compensation', 'pay'], reply: "Sreenath's salary expectations are flexible and based on the role and responsibilities — best discussed directly with him during the interview process." },
+    { keys: ['relocate', 'relocation', 'willing to move'], reply: "He's currently based in Bengaluru and open to roles in and around the city; relocation specifics are best confirmed directly with him." },
+    { keys: ['remote', 'work from home', 'wfh', 'hybrid'], reply: "He's open to remote, hybrid, or in-office roles — flexibility depends on the specific opportunity." },
+
+    // Contact / hiring
+    { keys: ['contact', 'email', 'phone', 'reach', 'connect', 'hire him', 'get in touch'], reply: "You can reach Sreenath at sreesree41002@gmail.com or call 6302047040. His GitHub and LinkedIn links are in the Contact section above too." },
+    { keys: ['resume', 'cv'], reply: "You can view his resume by clicking the 'Resume' button at the top of this page!" },
+    { keys: ['certificate', 'certification', 'certifications', 'aws cert', 'nism'], reply: "Sreenath holds an AWS Cloud Practitioner Essentials certificate and a NISM/SEBI Financial Literacy Quiz participation certificate. Check the Certifications section for the originals." },
+    { keys: ['looking for', 'job opportunity', 'opportunities', 'open to work', 'hiring', 'available for work', 'freelance', 'internship'], reply: "Yes! Sreenath is actively open to opportunities in IT Asset Management, Desktop Support, and Cloud/DevOps roles, as well as internships. Feel free to reach out via email." },
+    { keys: ['location', 'where is he', 'based in', 'live', 'city', 'bangalore', 'bengaluru'], reply: "Sreenath is currently based in Bengaluru, Electronic City area, and is open to opportunities there." },
+    { keys: ['age', 'how old'], reply: "I don't have his exact age on file, but he's currently a 2nd-year BCA student balancing studies with a job search!" },
+
+    // Misc / fun
+    { keys: ['joke', 'funny', 'make me laugh'], reply: "Why do programmers prefer dark mode? Because light attracts bugs! 🐛😄" },
+    { keys: ['thank', 'thanks', 'thank you', 'thnx', 'tysm'], reply: "You're welcome! Let me know if you want to know anything else about Sreenath. 😊" },
+    { keys: ['bye', 'goodbye', 'see you', 'good night'], reply: "Thanks for stopping by! Have a great day. 👋" },
+    { keys: ['name', 'who is sreenath', 'about sreenath', 'who is this'], reply: "This portfolio belongs to Sreenath Pothineni — a Cloud & DevOps learner with a background in IT Asset Management." },
+    { keys: ['ok', 'okay', 'cool', 'nice', 'great', 'awesome'], reply: "Glad that helps! Anything else you'd like to know about Sreenath?" },
+    { keys: ['love you', 'i love you'], reply: "Aww, that's sweet! I'm just a portfolio bot though — but I'm sure Sreenath appreciates the kindness! 😄" },
+  ];
+
+  const FALLBACKS = [
+    "I'm not sure about that one! Try asking about Sreenath's qualifications, skills, projects, experience, salary expectations, or how to contact him.",
+    "Hmm, I didn't quite catch that. I can help with interview-style questions too — try 'Why should we hire him?' or 'What's his biggest strength?'",
+    "That's outside what I know! Try asking things like 'What's his experience?' or 'How can I contact him?'",
+  ];
+  let fallbackIndex = 0;
+
+  function addMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.className = 'bot-msg ' + sender;
+    msg.textContent = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function getReply(userText) {
+    const lower = userText.toLowerCase().trim();
+
+    function hasWord(phrase) {
+      const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp('\\b' + escaped + '\\b');
+      return regex.test(lower);
+    }
+
+    for (const rule of RULES) {
+      if (rule.keys.some(k => hasWord(k))) {
+        return rule.reply;
+      }
+    }
+    const fb = FALLBACKS[fallbackIndex % FALLBACKS.length];
+    fallbackIndex++;
+    return fb;
+  }
+
+  function handleSend(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    addMessage(trimmed, 'user');
+    input.value = '';
+    setTimeout(() => {
+      addMessage(getReply(trimmed), 'bot');
+    }, 350);
+  }
+
+  toggle.addEventListener('click', () => {
+    const isOpen = win.classList.toggle('open');
+    toggle.classList.toggle('open', isOpen);
+    if (isOpen && !messages.dataset.greeted) {
+      addMessage("Hi! I'm Sreenath Assistant 🤖 Ask me about his skills, projects, or how to get in touch — or tap a quick question below.", 'bot');
+      messages.dataset.greeted = 'true';
+    }
+    if (isOpen) input.focus();
+  });
+
+  sendBtn.addEventListener('click', () => handleSend(input.value));
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleSend(input.value);
+  });
+
+  chips.querySelectorAll('.bot-chip').forEach(chip => {
+    chip.addEventListener('click', () => handleSend(chip.dataset.q));
+  });
+})();
 </script>
 </body>
 </html>
