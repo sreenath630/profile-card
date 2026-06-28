@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeakUp — English Speaking Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #15171c;
+    --bg-soft: #1c1f26;
+    --cream: #f5f1ea;
+    --cream-dim: rgba(245,241,234,0.55);
+    --coral: #ff6b4a;
+    --coral-dim: rgba(255,107,74,0.15);
+    --line: rgba(245,241,234,0.1);
+    --radius: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 50% -10%, rgba(255,107,74,0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 36px 22px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- Header ---------- */
+  .brand {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
+  }
+  .brand-name .dot { color: var(--coral); }
+  .brand-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- Topic card ---------- */
+  .topic-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .topic-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--coral);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topic-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+  }
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .cat-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--cream-dim);
+    padding: 6px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .cat-tab:hover { border-color: var(--coral); color: var(--cream); }
+  .cat-tab.active {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .topic-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.35;
+  }
+  .topic-refresh {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    width: 38px; height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream-dim);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .topic-refresh:hover { border-color: var(--coral); color: var(--coral); transform: rotate(90deg); }
+  .topic-refresh svg { width: 16px; height: 16px; }
+
+  /* ---------- Stage (mic + waveform) ---------- */
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0 10px;
+  }
+
+  .mic-wrap {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    margin-bottom: 22px;
+  }
+  .mic-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--coral-dim);
+    opacity: 0;
+    transform: scale(1);
+  }
+  .mic-ring.pulsing {
+    animation: ring-pulse 1.8s ease-out infinite;
+  }
+  .mic-ring.r2 { animation-delay: 0.5s; }
+  @keyframes ring-pulse {
+    0% { opacity: 0.7; transform: scale(0.9); }
+    100% { opacity: 0; transform: scale(1.5); }
+  }
+
+  .mic-btn {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    border: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 2;
+  }
+  .mic-btn:hover { border-color: var(--coral); }
+  .mic-btn.recording {
+    background: var(--coral);
+    border-color: var(--coral);
+    box-shadow: 0 0 0 1px var(--coral), 0 10px 40px -10px rgba(255,107,74,0.6);
+  }
+  .mic-btn svg { width: 34px; height: 34px; color: var(--cream); transition: color 0.2s ease; }
+  .mic-btn.recording svg { color: var(--bg); }
+
+  .stage-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cream-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: 26px;
+  }
+  .stage-hint.live { color: var(--coral); }
+
+  /* ---------- Waveform ---------- */
+  .waveform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 44px;
+    width: 100%;
+    margin-bottom: 22px;
+  }
+  .wave-bar {
+    width: 3px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--cream-dim);
+    transition: height 0.12s ease, background 0.2s ease;
+  }
+  .waveform.active .wave-bar { background: var(--coral); }
+
+  /* ---------- Timer strip ---------- */
+  .timer-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    width: 100%;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .timer-stat { text-align: center; }
+  .timer-stat .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  .timer-stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  .timer-divider { width: 1px; height: 28px; background: var(--line); }
+
+  .goal-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    margin-bottom: 28px;
+  }
+  .goal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 2px;
+  }
+  .goal-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--cream-dim);
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .goal-chip:hover { border-color: var(--coral); color: var(--cream); }
+  .goal-chip.active {
+    background: var(--coral-dim);
+    border-color: var(--coral);
+    color: var(--coral);
+    font-weight: 600;
+  }
+
+  .celebration {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,107,74,0.12);
+    border: 1px solid rgba(255,107,74,0.3);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+  }
+  .celebration.show { display: flex; }
+
+  /* ---------- Transcript ---------- */
+  .transcript-zone {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    min-height: 130px;
+    margin-bottom: 18px;
+  }
+  .transcript-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .transcript-text {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--cream);
+  }
+  .transcript-text .interim { color: var(--cream-dim); }
+  .transcript-placeholder {
+    color: var(--cream-dim);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+  .filler-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .filler-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    background: rgba(255,107,74,0.12);
+    border: 1px solid rgba(255,107,74,0.25);
+    color: var(--coral);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .transcript-actions {
+    display: none;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .transcript-actions.show { display: flex; }
+  .action-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--cream-dim);
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .action-btn:hover { border-color: var(--coral); color: var(--coral); }
+  .action-btn.copied { border-color: var(--coral); color: var(--coral); }
+
+  /* ---------- History ---------- */
+  .history-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 6px 2px;
+    margin-bottom: 6px;
+  }
+  .history-toggle h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cream-dim);
+  }
+  .history-toggle svg { width: 14px; height: 14px; color: var(--cream-dim); transition: transform 0.2s ease; }
+  .history-toggle.open svg { transform: rotate(180deg); }
+
+  .history-list {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .history-list.open { display: flex; }
+  .history-item {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .history-item .h-topic {
+    font-family: 'Fraunces', serif;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  .history-item .h-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--coral);
+    letter-spacing: 0.04em;
+  }
+  .history-empty {
+    color: var(--cream-dim);
+    font-size: 0.85rem;
+    font-style: italic;
+    padding: 8px 2px;
+  }
+
+  .vocab-box {
+    display: none;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-bottom: 22px;
+  }
+  .vocab-box.show { display: block; }
+  .vocab-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .vocab-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    padding: 5px 0;
+  }
+  .vocab-item .weak { color: var(--cream-dim); text-decoration: line-through; }
+  .vocab-item .arrow { color: var(--coral); }
+  .vocab-item .strong { color: var(--cream); font-weight: 500; }
+
+  /* ---------- Unsupported notice ---------- */
+  .unsupported {
+    background: var(--coral-dim);
+    border: 1px solid rgba(255,107,74,0.3);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    display: none;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 0.78rem;
+    color: var(--cream-dim);
+  }
+  footer a { color: var(--coral); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mic-ring.pulsing { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="brand">
+    <div class="brand-name">Speak<span class="dot">Up</span></div>
+    <div class="brand-tag">English Practice</div>
+  </div>
+
+  <div class="unsupported" id="unsupported">
+    Your browser doesn't support live speech recognition. Try this in Chrome or Edge on desktop or Android for the full experience.
+  </div>
+
+  <div class="topic-card">
+    <div class="topic-eyebrow">Today's prompt</div>
+    <div class="category-tabs" id="categoryTabs">
+      <button class="cat-tab active" data-cat="interview">Interview</button>
+      <button class="cat-tab" data-cat="casual">Casual</button>
+      <button class="cat-tab" data-cat="technical">Technical</button>
+    </div>
+    <div class="topic-text" id="topicText">Loading a topic...</div>
+    <button class="topic-refresh" id="refreshBtn" title="New topic" aria-label="New topic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="stage">
+    <div class="mic-wrap">
+      <div class="mic-ring r1" id="ring1"></div>
+      <div class="mic-ring r2" id="ring2"></div>
+      <button class="mic-btn" id="micBtn" aria-label="Start speaking">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="stage-hint" id="stageHint">Tap to start speaking</div>
+
+    <div class="waveform" id="waveform"></div>
+
+    <div class="timer-strip">
+      <div class="timer-stat">
+        <div class="num" id="statTime">00:00</div>
+        <div class="label">Time</div>
+      </div>
+      <div class="timer-divider"></div>
+      <div class="timer-stat">
+        <div class="num" id="statWords">0</div>
+        <div class="label">Words</div>
+      </div>
+      <div class="timer-divider"></div>
+      <div class="timer-stat">
+        <div class="num" id="statWpm">0</div>
+        <div class="label">WPM</div>
+      </div>
+    </div>
+
+    <div class="goal-row" id="goalRow">
+      <span class="goal-label">Goal:</span>
+      <button class="goal-chip" data-goal="0">Free speak</button>
+      <button class="goal-chip active" data-goal="60">1 min</button>
+      <button class="goal-chip" data-goal="120">2 min</button>
+      <button class="goal-chip" data-goal="180">3 min</button>
+    </div>
+  </div>
+
+  <div class="celebration" id="celebration">
+    🎉 <span id="celebrationText">Goal reached! Great job staying on track.</span>
+  </div>
+
+  <div class="transcript-zone">
+    <div class="transcript-label">Your transcript</div>
+    <div class="transcript-text" id="transcriptText">
+      <span class="transcript-placeholder">Start speaking and your words will appear here in real time.</span>
+    </div>
+    <div class="filler-row" id="fillerRow"></div>
+    <div class="transcript-actions" id="transcriptActions">
+      <button class="action-btn" id="copyBtn">Copy transcript</button>
+      <button class="action-btn" id="downloadBtn">Download .txt</button>
+    </div>
+  </div>
+
+  <div class="vocab-box" id="vocabBox"></div>
+
+  <div class="history-toggle" id="historyToggle">
+    <h3>Past sessions</h3>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+  <div class="history-list" id="historyList"></div>
+
+  <footer>
+    Built by <a href="https://github.com/sreenath630" target="_blank" rel="noopener">Sreenath Pothineni</a>
+  </footer>
+
+</div>
+
+<script>
+  const TOPICS = {
+    interview: [
+      "Describe your career goals for the next two years.",
+      "Talk about a challenge you faced at work and how you handled it.",
+      "Explain your strengths and how they help you at work.",
+      "Talk about a mistake you made and what you learned from it.",
+      "Explain what teamwork means to you.",
+      "Describe a typical day in your previous job.",
+      "Talk about how you handle stress or pressure.",
+      "Why do you want to work in Cloud or DevOps?",
+      "Tell me about a time you had to learn something new quickly.",
+      "Describe your ideal work environment and team culture.",
+    ],
+    casual: [
+      "Describe your favorite hobby and why you enjoy it.",
+      "Talk about your hometown and what makes it special.",
+      "Describe your daily routine on a typical weekday.",
+      "Talk about a book, movie, or show that left an impression on you.",
+      "Describe your favorite way to spend a weekend.",
+      "Talk about a person who has influenced your life.",
+      "Explain what 'success' means to you personally.",
+      "Describe a memorable trip or place you visited.",
+      "Talk about a goal you achieved that you're proud of.",
+      "Describe your favorite food and why you like it.",
+    ],
+    technical: [
+      "Explain the difference between a stack and a queue.",
+      "Describe what happens when you type a URL into a browser.",
+      "Explain what cloud computing means, in simple terms.",
+      "Talk about the difference between an incident and a service request.",
+      "Explain what DNS does and why it's needed.",
+      "Describe what Git is and why developers use it.",
+      "Explain the difference between hardware and software asset management.",
+      "Talk about what AWS EC2 and S3 are used for.",
+      "Explain what Active Directory is used for in IT support.",
+      "Describe the steps you'd take to troubleshoot a slow laptop.",
+    ],
+  };
+
+  let currentCategory = 'interview';
+  let goalSeconds = 60;
+  let goalHit = false;
+
+  document.querySelectorAll('.goal-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (isRecording) return;
+      document.querySelectorAll('.goal-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      goalSeconds = parseInt(chip.dataset.goal, 10);
+    });
+  });
+
+  const els = {
+    topicText: document.getElementById('topicText'),
+    refreshBtn: document.getElementById('refreshBtn'),
+    micBtn: document.getElementById('micBtn'),
+    ring1: document.getElementById('ring1'),
+    ring2: document.getElementById('ring2'),
+    stageHint: document.getElementById('stageHint'),
+    waveform: document.getElementById('waveform'),
+    statTime: document.getElementById('statTime'),
+    statWords: document.getElementById('statWords'),
+    statWpm: document.getElementById('statWpm'),
+    transcriptText: document.getElementById('transcriptText'),
+    fillerRow: document.getElementById('fillerRow'),
+    historyToggle: document.getElementById('historyToggle'),
+    historyList: document.getElementById('historyList'),
+    unsupported: document.getElementById('unsupported'),
+    goalRow: document.getElementById('goalRow'),
+    celebration: document.getElementById('celebration'),
+    celebrationText: document.getElementById('celebrationText'),
+    transcriptActions: document.getElementById('transcriptActions'),
+    copyBtn: document.getElementById('copyBtn'),
+    downloadBtn: document.getElementById('downloadBtn'),
+    vocabBox: document.getElementById('vocabBox'),
+  };
+
+  let currentTopic = "";
+  let recognition = null;
+  let isRecording = false;
+  let finalTranscript = "";
+  let timerInterval = null;
+  let waveInterval = null;
+  let startTime = null;
+  let lastSpeechTime = null;
+  let confidenceScores = [];
+
+  function checkPause() {
+    if (!lastSpeechTime || !isRecording) return;
+    const silentFor = (Date.now() - lastSpeechTime) / 1000;
+    if (silentFor > 4) {
+      els.stageHint.textContent = "Still there? Keep going — take your time.";
+    } else {
+      els.stageHint.textContent = "Listening... tap to stop";
+    }
+  }
+
+  /* ---------- Waveform bars ---------- */
+  const BAR_COUNT = 32;
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    els.waveform.appendChild(bar);
+  }
+  const bars = els.waveform.querySelectorAll('.wave-bar');
+
+  function animateWaveform() {
+    bars.forEach(bar => {
+      const h = isRecording ? (6 + Math.random() * 32) : 6;
+      bar.style.height = h + 'px';
+    });
+  }
+
+  /* ---------- Topic ---------- */
+  function pickTopic() {
+    const list = TOPICS[currentCategory];
+    const idx = Math.floor(Math.random() * list.length);
+    currentTopic = list[idx];
+    els.topicText.textContent = currentTopic;
+  }
+  pickTopic();
+  els.refreshBtn.addEventListener('click', () => {
+    if (!isRecording) pickTopic();
+  });
+
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (isRecording) return;
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.dataset.cat;
+      pickTopic();
+    });
+  });
+
+  /* ---------- History ---------- */
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem('speakup-history')) || []; }
+    catch { return []; }
+  }
+  function saveSession(topic, words, seconds, confidence) {
+    const history = getHistory();
+    history.unshift({ topic, words, seconds, confidence, date: new Date().toISOString() });
+    localStorage.setItem('speakup-history', JSON.stringify(history.slice(0, 20)));
+    renderHistory();
+  }
+  function renderHistory() {
+    const history = getHistory();
+    els.historyList.innerHTML = "";
+    if (!history.length) {
+      els.historyList.innerHTML = '<div class="history-empty">No sessions yet — finish a recording to see it here.</div>';
+      return;
+    }
+    history.forEach(s => {
+      const mins = Math.floor(s.seconds / 60);
+      const secs = s.seconds % 60;
+      const wpm = s.seconds > 0 ? Math.round((s.words / s.seconds) * 60) : 0;
+      const dateStr = new Date(s.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+      const clarityStr = (s.confidence !== null && s.confidence !== undefined) ? ` · ${s.confidence}% clarity` : '';
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      item.innerHTML = `
+        <div class="h-topic">${s.topic}</div>
+        <div class="h-meta">${dateStr} · ${mins}:${secs.toString().padStart(2,'0')} · ${s.words} words · ${wpm} wpm${clarityStr}</div>
+      `;
+      els.historyList.appendChild(item);
+    });
+  }
+  renderHistory();
+
+  els.historyToggle.addEventListener('click', () => {
+    els.historyToggle.classList.toggle('open');
+    els.historyList.classList.toggle('open');
+  });
+
+  /* ---------- Timer ---------- */
+  function formatTime(totalSeconds) {
+    const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const s = (totalSeconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function countWords(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return 0;
+    return trimmed.split(/\s+/).length;
+  }
+
+  const FILLER_WORDS = ['um', 'uh', 'like', 'actually', 'basically', 'literally', 'you know', 'so', 'kind of', 'sort of'];
+
+  const VOCAB_MAP = {
+    good: ['excellent', 'solid', 'impressive'],
+    nice: ['great', 'enjoyable', 'pleasant'],
+    bad: ['poor', 'challenging', 'difficult'],
+    big: ['significant', 'substantial', 'major'],
+    small: ['minor', 'modest', 'limited'],
+    'a lot': ['plenty', 'a great deal', 'considerably'],
+    very: ['extremely', 'highly', 'remarkably'],
+    important: ['essential', 'crucial', 'vital'],
+    interesting: ['fascinating', 'compelling', 'engaging'],
+    things: ['aspects', 'elements', 'factors'],
+    stuff: ['material', 'content', 'work'],
+    happy: ['delighted', 'pleased', 'satisfied'],
+    sad: ['disappointed', 'discouraged'],
+    fast: ['quickly', 'rapidly', 'efficiently'],
+    get: ['obtain', 'gain', 'acquire'],
+  };
+
+  function renderVocabSuggestions(text) {
+    const lower = text.toLowerCase();
+    const found = [];
+    Object.keys(VOCAB_MAP).forEach(word => {
+      const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp('\\b' + escaped + '\\b', 'g');
+      const matches = lower.match(regex);
+      if (matches && matches.length >= 2) {
+        found.push(word);
+      }
+    });
+    if (!found.length) {
+      els.vocabBox.classList.remove('show');
+      return;
+    }
+    els.vocabBox.classList.add('show');
+    els.vocabBox.innerHTML =
+      '<div class="vocab-title">Try swapping these next time</div>' +
+      found.slice(0, 4).map(word => {
+        const options = VOCAB_MAP[word].join(', ');
+        return `<div class="vocab-item"><span class="weak">${word}</span><span class="arrow">→</span><span class="strong">${options}</span></div>`;
+      }).join('');
+  }
+
+  function countFillers(text) {
+    const lower = text.toLowerCase();
+    const counts = {};
+    FILLER_WORDS.forEach(word => {
+      const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp('\\b' + escaped + '\\b', 'g');
+      const matches = lower.match(regex);
+      if (matches && matches.length > 0) {
+        counts[word] = matches.length;
+      }
+    });
+    return counts;
+  }
+
+  function renderFillers(text) {
+    const counts = countFillers(text);
+    const entries = Object.entries(counts);
+    if (!entries.length) {
+      els.fillerRow.innerHTML = '';
+      return;
+    }
+    els.fillerRow.innerHTML = entries
+      .sort((a, b) => b[1] - a[1])
+      .map(([word, count]) => `<span class="filler-chip">"${word}" × ${count}</span>`)
+      .join('');
+  }
+
+  function updateStats() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const words = countWords(finalTranscript);
+    const wpm = elapsed > 0 ? Math.round((words / elapsed) * 60) : 0;
+    els.statTime.textContent = formatTime(elapsed);
+    els.statWords.textContent = words;
+    els.statWpm.textContent = wpm;
+    renderFillers(finalTranscript);
+    renderVocabSuggestions(finalTranscript);
+    checkPause();
+    checkGoal(elapsed);
+  }
+
+  function checkGoal(elapsed) {
+    if (goalSeconds > 0 && !goalHit && elapsed >= goalSeconds) {
+      goalHit = true;
+      els.celebrationText.textContent = `Goal reached! You spoke for ${formatTime(goalSeconds)}. Keep going or wrap up.`;
+      els.celebration.classList.add('show');
+    }
+  }
+
+  /* ---------- Speech recognition setup ---------- */
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    els.unsupported.style.display = 'block';
+    els.micBtn.disabled = true;
+    els.micBtn.style.opacity = '0.4';
+    els.micBtn.style.cursor = 'not-allowed';
+  } else {
+    recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      lastSpeechTime = Date.now();
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcriptPiece = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcriptPiece + " ";
+          if (typeof event.results[i][0].confidence === 'number' && event.results[i][0].confidence > 0) {
+            confidenceScores.push(event.results[i][0].confidence);
+          }
+        } else {
+          interim += transcriptPiece;
+        }
+      }
+      renderTranscript(interim);
+    };
+
+    recognition.onerror = (event) => {
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        els.stageHint.textContent = "Microphone access denied. Allow mic access and try again.";
+        stopRecording();
+      } else if (event.error === 'no-speech') {
+        // keep listening, no need to stop
+      }
+    };
+
+    recognition.onend = () => {
+      if (isRecording) {
+        // Restart automatically if it stopped unexpectedly while we're still "recording"
+        try { recognition.start(); } catch (e) {}
+      }
+    };
+  }
+
+  function renderTranscript(interim) {
+    const finalText = finalTranscript.trim();
+    if (!finalText && !interim) {
+      els.transcriptText.innerHTML = '<span class="transcript-placeholder">Start speaking and your words will appear here in real time.</span>';
+      return;
+    }
+    els.transcriptText.innerHTML =
+      escapeHtml(finalText) +
+      (interim ? ' <span class="interim">' + escapeHtml(interim) + '</span>' : '');
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  /* ---------- Recording control ---------- */
+  function startRecording() {
+    if (!SpeechRecognition) return;
+    isRecording = true;
+    finalTranscript = "";
+    startTime = Date.now();
+    lastSpeechTime = Date.now();
+    goalHit = false;
+    confidenceScores = [];
+    els.celebration.classList.remove('show');
+    els.transcriptActions.classList.remove('show');
+    els.vocabBox.classList.remove('show');
+    renderTranscript("");
+
+    els.micBtn.classList.add('recording');
+    els.ring1.classList.add('pulsing');
+    els.ring2.classList.add('pulsing');
+    els.waveform.classList.add('active');
+    els.stageHint.textContent = "Listening... tap to stop";
+    els.stageHint.classList.add('live');
+
+    try { recognition.start(); } catch (e) {}
+
+    timerInterval = setInterval(updateStats, 500);
+    waveInterval = setInterval(animateWaveform, 120);
+  }
+
+  function stopRecording() {
+    isRecording = false;
+    try { recognition.stop(); } catch (e) {}
+
+    els.micBtn.classList.remove('recording');
+    els.ring1.classList.remove('pulsing');
+    els.ring2.classList.remove('pulsing');
+    els.waveform.classList.remove('active');
+    els.stageHint.textContent = "Tap to start speaking";
+    els.stageHint.classList.remove('live');
+
+    clearInterval(timerInterval);
+    clearInterval(waveInterval);
+    bars.forEach(bar => bar.style.height = '6px');
+
+    const elapsed = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0;
+    const words = countWords(finalTranscript);
+    if (words > 0) {
+      const avgConfidence = confidenceScores.length
+        ? Math.round((confidenceScores.reduce((a, b) => a + b, 0) / confidenceScores.length) * 100)
+        : null;
+      saveSession(currentTopic, words, elapsed, avgConfidence);
+      els.transcriptActions.classList.add('show');
+    }
+  }
+
+  els.copyBtn.addEventListener('click', () => {
+    const text = finalTranscript.trim();
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      els.copyBtn.textContent = 'Copied!';
+      els.copyBtn.classList.add('copied');
+      setTimeout(() => {
+        els.copyBtn.textContent = 'Copy transcript';
+        els.copyBtn.classList.remove('copied');
+      }, 1800);
+    });
+  });
+
+  els.downloadBtn.addEventListener('click', () => {
+    const text = finalTranscript.trim();
+    if (!text) return;
+    const blob = new Blob([`Topic: ${currentTopic}\n\n${text}`], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `speakup-transcript-${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  els.micBtn.addEventListener('click', () => {
+    if (!SpeechRecognition) return;
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  });
+</script>
+</body>
+</html>
